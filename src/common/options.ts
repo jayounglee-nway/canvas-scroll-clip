@@ -1,6 +1,6 @@
-import { IUserInputs, IFrame } from '../helpers/intefaces'
-import Base from './base';
-import Frame from './frame';
+import { IUserInputs, IFrame } from "../helpers/intefaces";
+import Base from "./base";
+import Frame from "./frame";
 
 /**
  * Plugin options.
@@ -10,7 +10,6 @@ import Frame from './frame';
  * @implements {IOptions}
  */
 export class Options extends Base {
-
   // User inputs
   public inputs: IUserInputs;
 
@@ -19,6 +18,9 @@ export class Options extends Base {
 
   // Animation Height
   public scrollArea: string | number = 0;
+
+  // Animation Start Position
+  public start: number = 0;
 
   // Frame
   protected frame: IFrame;
@@ -35,7 +37,7 @@ export class Options extends Base {
     this.inputs = options;
 
     // Set identifier
-    this.identifier = options.identifier || 'csc';
+    this.identifier = options.identifier || "csc";
 
     // Set frame
     this.frame = new Frame(options);
@@ -52,8 +54,7 @@ export class Options extends Base {
    * Set scrollable area height
    */
   public set setScrollableArea(height: number) {
-    if (this.scrollArea)
-      return
+    if (this.scrollArea) return;
 
     this.scrollArea = height;
   }

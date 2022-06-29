@@ -10,7 +10,6 @@ import Options from "../common/options";
  * @class Canvas
  */
 export class Canvas extends Options {
-
   /**
    * Loading
    */
@@ -22,7 +21,7 @@ export class Canvas extends Options {
   private _container: HTMLElement;
 
   /**
-   * HTML element 
+   * HTML element
    */
   private _wrapper: HTMLElement;
 
@@ -48,7 +47,7 @@ export class Canvas extends Options {
 
   /**
    * Creates an instance of Canvas.
-   * 
+   *
    * @constructor
    * @param {HTMLElement} HTML element.
    * @memberof Canvas
@@ -58,7 +57,7 @@ export class Canvas extends Options {
 
     // Check if HTMLCanvasElement exists
     if (!element) {
-      throw new AppError('HTML element is not defined.');
+      throw new AppError("HTML element is not defined.");
     }
 
     // Set container
@@ -66,21 +65,21 @@ export class Canvas extends Options {
 
     // Append canvas and loader to an element
     this._container.classList.add(`${this.identifier}-container`);
-    this._container.style.setProperty('height', `${this.scrollArea}px`);
+    this._container.style.setProperty("height", `${this.scrollArea}px`);
 
     // Create canvas element
-    this._canvas = document.createElement('canvas');
+    this._canvas = document.createElement("canvas");
     this._canvas.classList.add(`${this.identifier}-canvas`);
-    this._canvas.style.setProperty('display', 'block');
-    this._canvas.style.setProperty('max-height', '100%');
-    this._canvas.style.setProperty('max-width', '100%');
-    this._canvas.style.setProperty('object-fit', 'contain');
+    this._canvas.style.setProperty("display", "block");
+    this._canvas.style.setProperty("max-height", "100%");
+    this._canvas.style.setProperty("max-width", "100%");
+    this._canvas.style.setProperty("object-fit", "contain");
 
     // Create wrapper container
-    this._wrapper = document.createElement('div')
+    this._wrapper = document.createElement("div");
     this._wrapper.classList.add(this.identifier);
-    this._wrapper.style.setProperty('position', 'sticky');
-    this._wrapper.style.setProperty('top', '0');
+    this._wrapper.style.setProperty("position", "sticky");
+    this._wrapper.style.setProperty("top", "0");
     this._wrapper.appendChild(this._canvas);
 
     // Output template
@@ -95,13 +94,16 @@ export class Canvas extends Options {
       height: this.screen.height,
       top: 0,
       bottom: this.screen.height,
-      screen: this.screen
+      screen: this.screen,
+      start: this.inputs.start || 0,
     };
 
     // Bind scroll event
     this.events.on(utils.AppEvent.viewport.scroll, (scrollTop) => {
       if (!this.loading)
-        this.drawImageByScrollFraction(utils.getScrollFraction(this.viewport, scrollTop));
+        this.drawImageByScrollFraction(
+          utils.getScrollFraction(this.viewport, scrollTop)
+        );
     });
 
     // Preload Images
@@ -110,13 +112,12 @@ export class Canvas extends Options {
 
   /**
    * Preload images
-   * 
-   * @returns 
+   *
+   * @returns
    */
   private async preload() {
-
     // TODO: should I refactor this
-    return await utils.preloadImages(this.frame).then(images => {
+    return await utils.preloadImages(this.frame).then((images) => {
       this.images = images;
 
       // Set Canvas viewport
@@ -124,8 +125,12 @@ export class Canvas extends Options {
         ...this.viewport,
         width: this.images[0]?.width,
         height: this.images[0]?.height,
-        top: this._container.getBoundingClientRect().top + utils.getScrollTop() || 0,
-        bottom: this._container.getBoundingClientRect().bottom + utils.getScrollTop() || this.screen.height
+        top:
+          this._container.getBoundingClientRect().top + utils.getScrollTop() ||
+          0,
+        bottom:
+          this._container.getBoundingClientRect().bottom +
+            utils.getScrollTop() || this.screen.height,
       };
 
       // Set canvas size
@@ -133,7 +138,7 @@ export class Canvas extends Options {
       this._canvas.width = this.viewport.width;
       this._canvas.height = this.viewport.height;
       this.setScrollableArea = this.viewport.height * 2;
-      this._container.style.setProperty('height', `${this.scrollArea}px`);
+      this._container.style.setProperty("height", `${this.scrollArea}px`);
 
       // Initial image load
       this.drawImageByScrollFraction(utils.getScrollFraction(this.viewport));
@@ -152,19 +157,25 @@ export class Canvas extends Options {
 
   /**
    * Draw image in Canvas Element
-   * 
-   * @param image 
+   *
+   * @param image
    */
   public drawImage(image: HTMLImageElement): void {
     this.context.clearRect(0, 0, this.viewport.width, this.viewport.height);
-    this.context.drawImage(image, 0, 0, this.viewport.width, this.viewport.height);
+    this.context.drawImage(
+      image,
+      0,
+      0,
+      this.viewport.width,
+      this.viewport.height
+    );
   }
 
   /**
    * Draw image in canvas by frame number
    * @param {scrollTop} number
    * @private
-   * 
+   *
    * Hidden in order to not display this method in docs
    * @hidden
    */
@@ -174,7 +185,7 @@ export class Canvas extends Options {
 
   /**
    * Draw image in canvas by scroll top position.
-   * 
+   *
    * @param {scrollTop} number
    */
   public drawImageByScrollFraction(scrollFraction: number): void {
@@ -185,8 +196,7 @@ export class Canvas extends Options {
       Math.ceil(scrollFraction * this.frame.count)
     );
 
-    if (frameIndex <= 0)
-      frameIndex = 0;
+    if (frameIndex <= 0) frameIndex = 0;
 
     this.drawImageByFrameNumber(frameIndex);
   }

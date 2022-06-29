@@ -1,45 +1,47 @@
 /*
-* No operation type of function
-*/
+ * No operation type of function
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type NoopFunction = (args?: any) => any;
 
 /**
  * Input data
- * 
+ *
  * @export
  * @interface IInput
  */
 export interface IUserInputs {
-  identifier?: string,
-  framePath: string,
-  frameCount: number,
-  scrollArea?: string | number
+  identifier?: string;
+  framePath: string;
+  frameCount: number;
+  scrollArea?: string | number;
+  start?: number;
 }
 
 /**
  * Viewport
- * 
+ *
  * @export
  * @interface IScreenViewport
  */
 export interface IScreenViewport {
-  width: number,
-  height: number
+  width: number;
+  height: number;
 }
 
 /**
  * Canvas Viewport
- * 
+ *
  * @export
  * @interface ICanvasViewport
  */
 export interface ICanvasViewport {
-  width: number,
-  height: number,
-  top: number,
-  bottom: number,
-  screen: IScreenViewport
+  width: number;
+  height: number;
+  top: number;
+  bottom: number;
+  screen: IScreenViewport;
+  start: number;
 }
 
 /**
@@ -49,11 +51,11 @@ export interface ICanvasViewport {
  * @interface IFrameSequence
  */
 export interface IFrameSequence {
-  start: string,
-  sequence: number,
-  padStart: number,
-  ending: string,
-  extension: string,
+  start: string;
+  sequence: number;
+  padStart: number;
+  ending: string;
+  extension: string;
 }
 
 /**
@@ -63,7 +65,7 @@ export interface IFrameSequence {
  * @interface IFrame
  */
 export interface IFrame {
-  path: string,
-  count: number,
-  image: IFrameSequence
+  path: string;
+  count: number;
+  image: IFrameSequence;
 }
